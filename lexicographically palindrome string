@@ -1,0 +1,142 @@
+import java.util.*;
+public class lexi_palindrome {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        System.out.print("Enter your String: "); // get input = mama
+        String a=sc.nextLine();
+        int n=a.length();               // len = 4
+        int x=n/2,i=0,flag=0;           // x=4/2
+        String new1,new2;
+        if(n%2==0) {                    // 4%2==0 ->Even
+            new1 = a.substring(0, x);  // substring -> 0-x -> m,a
+            new2 = a.substring(x, n);  //  x,n -> m, a
+        }
+        else{                           // mala y alam -> odd , x=4
+                                        // 0123 4 5678
+            new1 = a.substring(0, x);   // mala -- aalm
+            new2 = a.substring(x+1, n); // alam -- aalm
+        }
+        char[] arr1 = new1.toCharArray();
+        Arrays.sort(arr1);
+        char[] arr2 = new2.toCharArray();
+        Arrays.sort(arr2);
+        for(i=0;i<x;i++) {
+            if (arr1[i]==arr2[i]) {
+                flag++;                 //1,2,3,4 (malayalam)
+            }
+        }
+        if(flag==x)
+            System.out.println("palindrome");
+        else
+            System.out.println("not palindrome");
+
+
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------
+import java.util.*;
+
+public class lexographical_pallindrome {
+    public static Boolean ispalin() {
+        
+        String s = "malayalam";
+
+        int n = s.length();
+        
+        int[] arr = new int[26];
+
+        for(int i = 0;i<n;i++){
+            arr[(int)s.charAt(i)%96]++;
+        }
+
+        if(n%2==0){
+            for(int i : arr){
+                if(i%2!=0)
+                    return false;
+            }
+        }
+        else {
+            int odd = 0;
+            for(int i : arr){
+                if(i%2!=0){
+                    odd++;
+                }
+                if(odd>1){
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+    public static void main(String[] args){
+        Boolean flag = ispalin();
+
+        if(!flag){
+            System.out.println("no bro");
+        }
+        else {
+            System.out.println("ama vro");
+        }
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class lexo {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        String str = s.next();
+        char[] ch = new char[str.length() / 2];
+        char[] ch1 = new char[str.length() / 2];
+        int i = 0;
+        int j = 0;
+        for (int a = 0; a < str.length() / 2; a++) {
+            ch[i++] = str.charAt(a);
+        }
+        int x = str.length() / 2;
+        if (str.length() % 2 != 0)
+            x++;
+        for (int a = x; a < str.length(); a++) {
+            ch1[j++] = str.charAt(a);
+        }
+        Arrays.sort(ch);
+        Arrays.sort(ch1);
+        if (Arrays.equals(ch, ch1) == true)
+            System.out.print("YES");
+        else
+            System.out.print("NO");
+        s.close();
+    }
+}
+----------------------------------------------------------------------------------------------------------
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class lexo {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        String str = s.next();
+        char[] ch = new char[str.length() / 2];
+        char[] ch1 = new char[str.length() / 2];
+        int i = 0;
+        int j = 0;
+        for (int a = 0; a < str.length() / 2; a++) {
+            ch[i++] = str.charAt(a);
+        }
+        int x = str.length() / 2;
+        if (str.length() % 2 != 0)
+            x++;
+        for (int a = x; a < str.length(); a++) {
+            ch1[j++] = str.charAt(a);
+        }
+        Arrays.sort(ch);
+        Arrays.sort(ch1);
+        if (Arrays.equals(ch, ch1) == true)
+            System.out.print("YES");
+        else
+            System.out.print("NO");
+        s.close();
+    }
+}
