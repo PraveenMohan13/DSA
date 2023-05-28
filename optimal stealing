@@ -1,0 +1,211 @@
+Find maximum possible stolen value from houses
+There are N houses built in a line, each of which contains some value in it. 
+A thief is going to steal the maximum value of these houses, but he can’t steal in 
+two adjacent houses because the owner of the stolen houses will tell his two neighbors left and right sides. 
+The task is to find what is the maximum stolen value.
+
+Examples: 
+
+Input: hval[] = {6, 7, 1, 3, 8, 2, 4}
+Output: 19
+Explanation: The thief will steal 6, 1, 8 and 4 from the house.
+
+Input: hval[] = {5, 3, 4, 11, 2}
+Output: 16
+Explanation: Thief will steal 5 and 11
+--------------------------------------------------------------------------------------------------------------------
+Time Complexity:  O(2N). Every element has 2 choices to pick and not pick
+Auxiliary Space: O(2N). A recursion stack space is required of size 2n, so space complexity is O(2N).
+
+import java.io.*;
+
+class PM
+{
+static int fun(ArrayList<Integer> a, int n)
+{
+	
+	if (n < 0) {
+	return 0;
+	}
+
+	if (n == 0) {
+	return a.get(0);
+	}
+	
+	int not_select = fun(a, n - 1);
+    int select = a.get(n) + fun(a, n - 2);
+
+	return Math.max(select, not_select);
+}
+
+public static void main(String[] args)
+{
+    Scanner z=new Scanner(System.in);
+    int n,inp;
+    ArrayList<Integer> a=new ArrayList<Integer>();
+    while(true)
+    {
+       inp=z.nextInt();
+        if(inp == -1)
+            break;
+        a.add(inp);
+    }
+    System.out.println(a);
+	 n = a.size();
+	System.out.println(fun(a, n-1));
+}
+}
+--------------------------------------------------------------------------------------------------------
+Time Complexity: O(n). Only one traversal of the original array is needed. So the time complexity is O(n)
+Space Complexity: O(n). Recursive stack space is required of size n, so space complexity is O(n).
+
+DP TOP-DOWN
+
+import java.io.*;
+
+class PM
+{
+static int fun(ArrayList<Integer> a, int n,int dp[])
+{
+	
+	if (n < 0) {
+	return 0;
+	}
+
+	if (n == 0) {
+	return a.get(0);
+	}
+    if (dp[n] != -1) {
+      return dp[n];
+    }
+	
+	int not_select = fun(a, n - 1,dp);
+    int select = a.get(n) + fun(a, n - 2,dp);
+
+	return dp[n]=Math.max(select, not_select);
+}
+
+public static void main(String[] args)
+{
+    Scanner z=new Scanner(System.in);
+    int n,inp;
+    ArrayList<Integer> a=new ArrayList<Integer>();
+    while(true)
+    {
+       inp=z.nextInt();
+        if(inp == -1)
+            break;
+        a.add(inp);
+    }
+     n = a.size();
+    System.out.println(a);
+    int dp[] = new int[n + 1];
+    Arrays.fill(dp, -1);
+	
+	System.out.println(fun(a, n-1,dp));
+}
+}
+--------------------------------------------------------------------------------------
+
+Time Complexity: O(N). Only one traversal of the original array is needed. So the time complexity is O(n)
+Auxiliary Space: O(N). An array is required of size n, so space complexity is O(n).
+
+DP Bottom up 
+
+import java.io.*;
+
+class PM
+{
+static int fun(ArrayList<Integer> a, int n)
+{
+	    int[] dp = new int[n];
+    
+	if (n < 0) 
+	return 0;
+
+	if (n == 0) 
+	return a.get(0);
+    
+    if (n == 2)
+            return Math.max(a.get(0), a.get(1));
+    dp[0] = a.get(0);
+    dp[1] = Math.max(a.get(0), a.get(1));
+    
+    for (int i = 2; i < n; i++)
+        dp[i] = Math.max(a.get(i) + dp[i - 2], dp[i - 1]);
+ 
+        return dp[n - 1];
+}
+
+public static void main(String[] args)
+{
+    Scanner z=new Scanner(System.in);
+    int n,inp;
+    ArrayList<Integer> a=new ArrayList<Integer>();
+    while(true)
+    {
+       inp=z.nextInt();
+        if(inp == -1)
+            break;
+        a.add(inp);
+    }
+     n = a.size();
+    System.out.println(a);
+	System.out.println(fun(a, n));
+}
+}
+
+------------------------------------------------------------------------------------------
+Time Complexity: O(N), Only one traversal of the original array is needed. So the time complexity is O(N).
+Auxiliary Space: O(1), No extra space is required so the space complexity is constant.
+
+
+import java.io.*;
+
+class PM
+{
+static int fun(ArrayList<Integer> a, int n)
+{
+    
+	if (n < 0) 
+	return 0;
+
+    int value1 = a.get(0);
+    
+	if (n == 0) 
+	return value1;
+    
+    int value2 = Math.max(a.get(0), a.get(1));
+    
+    if (n == 2)
+            return value2;
+    
+    int max = 0;
+    
+    for (int i = 2; i < n; i++) {
+            max = Math.max(a.get(i) + value1, value2);
+            value1 = value2;
+            value2 = max;
+        }
+ 
+        return max;
+}
+
+public static void main(String[] args)
+{
+    Scanner z=new Scanner(System.in);
+    int n,inp;
+    ArrayList<Integer> a=new ArrayList<Integer>();
+    while(true)
+    {
+       inp=z.nextInt();
+        if(inp == -1)
+            break;
+        a.add(inp);
+    }
+     n = a.size();
+    System.out.println(a);
+	System.out.println(fun(a, n));
+}
+}
+
