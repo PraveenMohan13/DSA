@@ -1,0 +1,76 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+    public static int toll_gate[];
+    public static int revenue[];
+    public static int no_toll,m,diff;
+    public static int max = 0;
+    public static int recursion(int i,int sum){
+        //System.out.println(i + " " + sum + " " + max);
+        for(int j = i + 1;j < no_toll;j++){
+            if(toll_gate[j] - toll_gate[i] > diff){
+                int present = recursion(j,sum + revenue[j]);
+                //System.out.println(present);
+                if(max < present){
+                    max = present;
+                }
+            }
+        }
+        return sum;
+        
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        m = sc.nextInt();
+        no_toll = sc.nextInt();
+        toll_gate = new int[no_toll];
+        revenue = new int[no_toll];
+        for(int i = 0;i < no_toll;i++){
+            toll_gate[i] = sc.nextInt();
+            if(toll_gate[i] > m){
+                System.out.println(-1);
+                return;
+            }
+        }
+        for(int i = 0;i < no_toll;i++){
+            revenue[i] = sc.nextInt();
+        }
+        diff = sc.nextInt();
+        
+        int val = 0;
+        for(int i = 0;i < no_toll;i++){
+            val = recursion(i,revenue[i]);
+            max = Math.max(val,max);
+        }
+        System.out.println(max);
+        
+    }
+}
+-------------------------------------------------------------
+maxMiles = int(input())
+n = int(input())
+billBoards = list(map(int, input().split()))
+revenue = list(map(int, input().split()))
+maxRevenue = revenue[:]
+distance = int(input())
+if billBoards[-1] > maxMiles:
+    print(-1)
+    quit()
+for i in range(1, n):
+    prevBillBoard = i
+    for j in range(i-1, -1, -1):
+        if billBoards[i] - billBoards[j] > distance:
+            if billBoards[prevBillBoard] - billBoards[j] > distance:
+                maxRevenue[i] += revenue[j]
+                prevBillBoard = j
+            else:
+                currentRevenue = maxRevenue[i] - revenue[prevBillBoard] + revenue[j]
+                if currentRevenue > maxRevenue[i]:
+                    maxRevenue[i] = currentRevenue
+                    prevBillBoard = j
+print(max(maxRevenue))
