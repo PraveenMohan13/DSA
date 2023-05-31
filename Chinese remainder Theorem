@@ -43,3 +43,44 @@ class Main {
 		System.out.println("x is " + findMinX(num, rem, k));
 	}
 }
+---------------------------------------------------------------------
+
+import java.io.*;
+
+class Main {
+	
+	static int findMinX(int num[], int rem[], int k)
+	{
+		int x = 1; 
+	int ans=1;
+        for(int i=0;i<k;i++)
+            ans=ans*num[i];
+        //System.out.println(ans);
+		while (x<=ans)
+		{
+	
+			int j;
+			for (j=0; j<k; j++ )
+				if (x%num[j] != rem[j])
+				break;
+	
+			if (j == k)
+				return x;
+	
+			x++;
+           // System.out.println(x);
+		}
+	if(x<ans)
+	return x;
+        else
+        return -1;
+	}
+
+	public static void main(String args[])
+	{
+		int num[] = {6, 8,9,3};
+       int rem[] = {1, 3,2,1};
+		int k = num.length;
+		System.out.println("x is " + findMinX(num, rem, k));
+	}
+}
