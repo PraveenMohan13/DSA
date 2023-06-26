@@ -1,0 +1,116 @@
+You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
+
+Return the number of combinations that make up that amount. If that amount of money cannot be made up by any combination of the coins, return 0.
+
+You may assume that you have an infinite number of each kind of coin.
+
+The answer is guaranteed to fit into a signed 32-bit integer.
+
+ 
+
+Example 1:
+
+Input: amount = 5, coins = [1,2,5]
+Output: 4
+Explanation: there are four ways to make up the amount:
+5=5
+5=2+2+1
+5=2+1+1+1
+5=1+1+1+1+1
+Example 2:
+
+Input: amount = 3, coins = [2]
+Output: 0
+Explanation: the amount of 3 cannot be made up just with coins of 2.
+Example 3:
+
+Input: amount = 10, coins = [10]
+Output: 1
+ 
+
+Constraints:
+
+1 <= coins.length <= 300
+1 <= coins[i] <= 5000
+All the values of coins are unique.
+0 <= amount <= 5000
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Recursion
+The first step to solve a dp is to find recurrence relation and solve it.
+Taking care of base cases .
+Here the base case it at index 0 where the amount can be formed using element at 0th index.
+Time Complexity : 2^n (exponential)
+Space Complexity : O(amount)
+Recurssive Code
+class Solution {
+    public int findWays(int ind, int amount,int[] coins) {
+        if(ind == 0) {
+            if(amount % coins[0] == 0) return 1;
+            else return 0;
+        }
+        int dontPick = 0 + findWays(ind-1,amount - 0 , coins);
+        int pick = 0;
+        if(coins[ind] <= amount) pick = findWays(ind,amount-coins[ind],coins);
+        return dontPick + pick;
+    }
+    public int change(int amount, int[] coins) {
+        int n = coins.length;
+        return findWays(n-1,amount,coins);
+    }
+}
+Memoization
+Second step is to memoize the recurrsive code where we are solving the sub problems that are already solved .
+Let store the solved sub problems in a dp when we encounter with same sub problem we will use the dp.
+Time Complexity : O(n * amount)
+Space Complexity : O(n * amount) + O(amount)
+Memoized Code
+class Solution {
+    public int findWays(int ind, int amount,int[] coins,int[][] dp) {
+        if(ind == 0) {
+            if(amount % coins[0] == 0) return 1;
+            else return 0;
+        }
+        if(dp[ind][amount] != -1) return dp[ind][amount];
+        int dontPick = 0 + findWays(ind-1,amount - 0 , coins , dp);
+
+        int pick = 0;
+        if(coins[ind] <= amount) pick = findWays(ind,amount-coins[ind],coins ,dp);
+        
+        return dp[ind][amount] = dontPick + pick;
+    }
+    public int change(int amount, int[] coins) {
+        int n = coins.length;
+        int[][] dp = new int[n][amount + 1];
+        for(int[] arr : dp) Arrays.fill(arr,-1);
+        return findWays(n-1,amount,coins,dp);
+    }
+}
+Dp
+Third step is to optimize the memoized solution using bottom up approach
+The main aim is to remove the auxilary stack space in memoized solution
+Time Complexity : O(n * amount)
+Space Complexity : O(n * amount)
+Dp Code
+class Solution {
+    
+    public int change(int amount, int[] coins) {
+        int n = coins.length;
+        int[][] dp = new int[n][amount + 1];
+       
+       for(int i = 0;i<=amount;i++) {
+           if(i % coins[0] == 0) dp[0][i] = 1;
+           else dp[0][i] = 0;
+       }
+
+       for(int i = 1;i<n;i++) {
+           for(int j = 0;j<=amount;j++) {
+               int dontPick = dp[i-1][j];
+               int pick = 0;
+               if(coins[i] <= j) pick = dp[i][j-coins[i]];
+               dp[i][j] = dontPick + pick;
+           }
+       }
+        return dp[n-1][amount];
+    }
+}
