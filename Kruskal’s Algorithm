@@ -1,0 +1,72 @@
+import java.io.*;
+import java.util.*;
+
+class Edge implements Comparable<Edge>{
+    int source;
+    int dest;
+    int weight;
+    
+    void printEdge(){
+        System.out.println(Math.min(source,dest) + " " + Math.max(source, dest) + " " + weight);
+    }
+    
+    public int compareTo(Edge e){
+        return this.weight - e.weight;
+    }
+}
+
+public class Solution {
+    
+    public static int findParent(int v, int parent[]){
+        if(parent[v] == v){
+            return v;
+        }
+        return findParent(parent[v], parent);
+    }
+    
+    
+    
+    public static void krushkalsAlgorithm(Edge[] input, int v, int e){
+        Arrays.sort(input);
+        Edge[] output = new Edge[v-1];
+        int[] parent = new int[v];
+        
+        for(int i=0;i<v;i++){
+            parent[i] = i;
+        }
+        
+        int count =0;
+        int i=0;
+        
+        while(count != v-1){
+            Edge currentEdge = input[i];
+            
+            int sourceParent = findParent(currentEdge.source, parent);
+            int destParent = findParent(currentEdge.dest, parent);
+            
+            if(sourceParent != destParent){
+                output[count] = currentEdge;
+                count++;
+                parent[sourceParent] = destParent;
+            }
+            i++;
+        }
+        for(int j=0;j<v-1;j++){
+            output[j].printEdge();
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int V = sc.nextInt();
+        int E = sc.nextInt();
+        Edge []input = new Edge[E];
+        for(int i=0;i<E;i++){
+            input[i] = new Edge();
+            input[i].source = sc.nextInt();
+            input[i].dest = sc.nextInt();
+            input[i].weight = sc.nextInt();
+        }
+        krushkalsAlgorithm(input, V, E);
+    }
+}
