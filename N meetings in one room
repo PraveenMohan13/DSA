@@ -1,0 +1,127 @@
+N meetings in one room
+In a firm, we have only one meeting room. And there are N meetings in the form of (S[i], F[i]). Where S[i] is the start time of meeting i and F[i] is the finish time of meeting i. What is the maximum number of meetings that can be accommodated in this meeting room?
+
+
+
+Format:
+
+Input:
+
+The first line of the input consists of a number denoting the test cases. The description of T test cases is as follows: The first line consists of the size of an array. The second line has an array consists of starting time of all the meetings each separated by a space, that is S[i]. And the third line has the array consists of end time of all the meetings each separated by a space, that is F[i].
+
+Output:
+
+In each separate lines. Print the order in which the meetings takes place, separated by space.
+
+
+
+Constraints:
+
+1 ≤ T ≤ 70
+
+1 ≤ N ≤ 100
+
+1 ≤ S[ i ], F[ i ] ≤ 100000
+
+
+
+Example:
+
+Input:
+
+2
+
+6
+
+1 3 0 5 8 5
+
+2 4 6 7 9 9
+
+8
+
+75250 50074 43659 8931 11273 27545 50879 77924
+
+112960 114515 81825 93424 54316 35533 73383 160252 
+
+Output:
+
+1 2 4 5
+
+6 7 1
+
+Explanation:
+
+Testcase 1: Four meetings can be held with the given start and end timings.
+
+
+======================================================================================
+import java.util.*;
+
+public class Main {
+
+	public static void main(String args[]) {
+
+		Scanner sc = new Scanner(System.in);
+
+		int T = sc.nextInt();
+
+		while (T-- > 0) {
+
+			int n = sc.nextInt();
+			int[] start = new int[n];
+			int[] end = new int[n];
+
+			for (int i = 0; i < n; i++)
+				start[i] = sc.nextInt();
+
+			for (int i = 0; i < n; i++)
+				end[i] = sc.nextInt();
+
+			findMax(start, end, n);
+			System.out.println();
+
+		}
+
+		sc.close();
+	}
+
+	public static void findMax(int[] start, int[] end, int n) {
+
+		Meeting[] ar = new Meeting[n];
+
+		for (int i = 0; i < n; i++)
+			ar[i] = new Meeting(start[i], end[i], i + 1);
+
+		Arrays.sort(ar);
+
+		int ending = 0;
+
+		for (int i = 0; i < n; i++) {
+
+			Meeting curr = ar[i];
+
+			if (curr.start <= ending)
+				continue;
+
+			System.out.print(curr.pos + " ");
+			ending = curr.end;
+		}
+	}
+
+	static class Meeting implements Comparable<Meeting> {
+
+		int start, end, pos;
+
+		Meeting(int start, int end, int pos) {
+
+			this.start = start;
+			this.end = end;
+			this.pos = pos;
+		}
+
+		public int compareTo(Meeting m) {
+
+			return this.end - m.end;
+		}
+	}
+}
