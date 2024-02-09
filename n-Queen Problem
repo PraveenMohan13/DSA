@@ -1,0 +1,121 @@
+N-Queen Problem
+The n-queen puzzle is a problem of placing n queens on a(n×n) chessboard. In such a way, that no two queens can attack each other. Given an integer n, find all the distinct solutions to this "n-queen puzzle". Each solution contains distinct board configurations of the n-queens placement. Where the solution is a permutation of [1,2,3..n] in increasing order. Here the number in the ith place denotes that the ith-column of queen placed in the row with that number. For example, this figure represents the chessboard [3 1 4 2].
+
+
+
+
+
+
+
+Constraints:
+
+1 ≤ n ≤ 10 
+
+
+
+Example 1:
+
+Input:
+
+1
+
+Output:
+
+[1]
+
+Explanation:
+
+Only one queen can be placed in the single-cell available.
+
+
+
+Example 2:
+
+Input:
+
+4
+
+Output:
+
+[2 4 1 3 ] [3 1 4 2 ]
+
+Explanation:
+
+These are the 2 possible solutions.
+============================================================================
+import java.io.*;
+import java.util.*;
+import java.lang.*;
+
+class Main{
+    public static void main(String args[])throws IOException
+    {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+            int n = Integer.parseInt(in.readLine());
+            
+            Solution ob = new Solution();
+            ArrayList<ArrayList<Integer>> ans = ob.nQueen(n);
+            if(ans.size() == 0)
+                System.out.println("-1");
+            else {
+                for(int i = 0;i < ans.size();i++){
+                    System.out.print("[");
+                    for(int j = 0;j < ans.get(i).size();j++)
+                        System.out.print(ans.get(i).get(j) + " ");
+                    System.out.print("] ");
+                }
+                System.out.println();
+            }
+    }
+}
+class Solution{
+    static ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+    static LinkedList<Integer> sol = new LinkedList<>();
+    static int[][] visited;
+    static int len;
+    static boolean isSafe(int row, int col)
+    {
+        int i, j;
+        int[][] board = visited;
+        /* Check this row on left side */
+        for (i = 0; i < row; i++)
+            if (visited[i][col] == 1)
+                return false;
+
+        /* Check upper diagonal on left side */
+        for (i = row, j = col; i >= 0 && j >= 0; i--, j--)
+            if (visited[i][j] == 1)
+                return false;
+
+        /* Check lower diagonal on left side */
+        for (i = row, j = col; j <len && i >= 0; i--, j++)
+            if (visited[i][j] == 1)
+                return false;
+
+        return true;
+    }
+
+    static void solveNQ(int x,int n){
+        if(n == 0){
+            res.add(new ArrayList<>(sol));
+
+        }
+        for(int i = 0 ; i < len ; i++){
+            if(isSafe(x,i)){
+                visited[x][i] = 1;
+                sol.add(i+1);
+                solveNQ(x+1,n-1);
+                sol.removeLast();
+                visited[x][i] = 0;
+            }
+        }
+    }
+    static ArrayList<ArrayList<Integer>> nQueen(int n) {
+        visited = new int[n][n];
+        len = n;
+        res.clear();
+        sol.clear();
+        solveNQ(0,n);
+        return res;
+    }
+}
