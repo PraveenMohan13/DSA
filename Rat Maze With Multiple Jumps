@@ -1,0 +1,132 @@
+Rat Maze With Multiple Jumps
+A Maze is given as an N*N binary matrix of blocks. Where source block is the upper leftmost block. Which is a maze[0][0], and the destination block is a lower rightmost block. That is a maze[N-1][N-1]. A rat starts from the source and has to reach the destination. The rat can move only in two directions: if possible, the first is forward or else down. If multiple solutions exist, the shortest and earliest hop will be accepted. For the same hopping distance at any point, forward will be preferred over downward.
+
+In the maze matrix, 0 means the block is dead-end. And a non-zero number means the block can be used in the path from source to destination. The non-zero value of mat[i][j] indicates, the number of maximum jumps rat can make from cell mat[i][j].
+
+In this variation, a rat is allowed to jump multiple steps at a time instead of 1.
+
+
+
+Format:
+
+Input:
+
+The first line of input contains an integer T, denoting the number of test cases. For each test case, the first line contains an integer N, denoting the size of a square matrix N*N. The next line is the space-separated values of the matrix M, where 0's represent blocked paths and any other number represents valid paths. 
+
+Output:
+
+For each test case, the output is a matrix that contains 1 for the path and 0 for no path taken. If no path exists in a matrix, print -1.
+
+
+
+Constraints:
+
+1 <= T <= 50
+
+2 <= n <= 10
+
+0 <= m[i][j] <= 5
+
+
+
+Example:
+
+Input:
+
+2
+
+4 
+
+2 1 0 0
+
+3 0 0 1
+
+0 1 0 1
+
+0 0 0 1
+
+4
+
+2 1 0 0
+
+2 0 0 1
+
+0 1 0 1
+
+0 0 0 1
+
+Output:
+
+1 0 0 0
+
+1 0 0 1
+
+0 0 0 1
+
+0 0 0 1
+
+-1
+
+Explanation:
+
+Testcase 1:  Rat will start with m[0][0] and can jump up to 2 steps right/down. First check m[0][1] as it is 1, next check m[0][2], this won't lead to the solution. Then check m[1][0], as this is 3(non-zero). So we can make 3 jumps to reach m[1][3]. From m[1][3] we can move downwards, by taking 1 jump each at a time to reach the destination at m[3][3].
+
+Testcase 2: As no path exists, so -1
+
+===============================================================
+
+import java.util.*;
+
+public class Main{
+    static boolean flag=false;
+    public static void print(int arr[][]){
+        for(int i[]:arr){
+            for(int j:i){
+                System.out.print(j+" ");
+            }
+            System.out.println();
+        }
+
+    }
+    public static void helper(int maze[][],int visited[][],int x,int y,int n){
+
+        if(flag==true){
+            return;
+        }
+        if(x==n-1 && y==n-1){
+            visited[x][y]=1;
+            flag=true;
+            print(visited);
+            return;
+        }
+        if(x<0 || y<0 || x>=n || y>=n || visited[x][y]==1 || maze[x][y]==0){
+            return;
+        }
+        int l=maze[x][y];
+        for(int i=1;i<=l;i++){
+            visited[x][y]=1;
+            helper(maze,visited,x,y+i,n);
+            helper(maze,visited,x+i,y,n);
+            visited[x][y]=0;
+        }
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t=sc.nextInt();
+        while(t-->0){
+            int n=sc.nextInt();
+            int maze[][]=new int[n][n];
+            for(int i=0;i<n;i++){
+                for(int j=0;j<n;j++){
+                    maze[i][j]=sc.nextInt();
+                }
+            }
+            int visited[][]=new int[n][n];
+            helper(maze,visited,0,0,n);
+            if(flag==false){
+                System.out.println(-1);
+            }
+            flag=false;
+        }
+    }
+}
