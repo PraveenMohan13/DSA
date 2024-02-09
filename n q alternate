@@ -1,0 +1,40 @@
+import java.util.Scanner;
+
+public class Main {
+    static boolean fun(int b[], int c, int s) {
+        if (c == s)
+            return true;
+        else {
+            for (int i = 0; i < s; i++) {
+                b[c] = i;
+                if (check(b, c)) {
+                    boolean d = fun(b, c + 1, s);
+                    if (d)
+                        return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    static boolean check(int b[], int c) {
+        for (int i = 0; i < c; i++) {
+            if (b[i] == b[c] || Math.abs(c - i) == Math.abs(b[c] - b[i]))
+                return false;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner z = new Scanner(System.in);
+        int n = z.nextInt();
+        int a[] = new int[n];
+        if (fun(a, 0, n)) {
+            for (int i = 0; i < n; i++)
+                System.out.print(a[i] + " ");
+        } else
+            System.out.print("-1");
+
+        z.close();
+    }
+}
