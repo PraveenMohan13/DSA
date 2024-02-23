@@ -1,0 +1,72 @@
+Enter the number of Queens:
+The No of Moves :113
+The no of Bactrack Moves:105
+1 0 0 0 0 0 0 0 
+0 0 0 0 0 0 1 0 
+0 0 0 0 1 0 0 0 
+0 0 0 0 0 0 0 1 
+0 1 0 0 0 0 0 0 
+0 0 0 1 0 0 0 0 
+0 0 0 0 0 1 0 0 
+0 0 1 0 0 0 0 0
+==============================================================================================
+import java.util.*;
+public class Main {
+    static int count = 0;
+    static int backtrack = 0;
+    public static void printNqueen(int arr[][],int n){
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<n;j++)  System.out.print(arr[i][j]+" ");
+                System.out.println();
+        }
+    
+    }
+    public static boolean safe(int arr[][],int row, int col,int n){
+        int i ,j;
+        //For col
+        for(i = 0;i<n;i++){
+            if(arr[row][i] == 1)    return false;
+        }
+        //For upper Diagonal
+        for(i = row,j = col;i>=0 && j>=0;i--,j--){
+            if(arr[i][j] == 1)  return false;
+        }
+        //For left lower diagnonal
+        for(i = row,j = col;i<n && j>=0;i++,j--){
+            if(arr[i][j] == 1)  return false;
+        }
+        return true;
+    }
+    public static boolean NQueenFind(int arr[][], int col, int n){
+        if(col >= n)    return true;
+        for(int i = 0;i<n;i++){
+            if(safe(arr,i,col,n) == true){
+                arr[i][col] =1;
+                ++count;
+                if(NQueenFind(arr,col+1,n) == true) return true;
+                arr[i][col] = 0;
+                backtrack++;
+            }
+           
+        }
+        return false;
+    }
+    public static void Nqueentrack(int n){
+        int arr[][] = new int[n][n];
+        if(NQueenFind(arr,0,n) == true) {
+         System.out.println("The No of Moves :"+count);
+            System.out.println("The no of Bactrack Moves:"+backtrack);
+            printNqueen(arr,n);
+        }
+        else
+            System.out.println("Cannot be constructed");
+        
+    }
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the number of Queens:");
+        int n = sc.nextInt();
+        Nqueentrack(n);
+    }
+}
