@@ -1,0 +1,74 @@
+import java.util.*;
+public class practice {
+  static int count=0;
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+    int n=sc.nextInt();
+    char a[][]=new char[n][n];
+    for(int i=0;i<n;i++){
+      for(int j=0;j<n;j++){
+        a[i][j]='o';
+      }
+    }
+    solve(a,0,n);
+    System.out.println(count); 
+  }
+  public static void solve(char[][] a,int row,int n){
+    if(row==n){
+      count++;
+      for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+          System.out.print(a[i][j]+" ");
+        }
+
+        System.out.println();
+      }
+      System.out.println();
+      return;
+    }
+    else{
+      for(int col=0;col<n;col++){
+        // System.out.println(row);
+        if(isSafe(a,row,col,n)){
+          a[row][col]='q';
+          // display(a,n);
+          solve(a,row+1,n);
+          a[row][col]='o';
+        }
+      }
+    }
+  }
+  public static void display(char[][] a,int n){
+    for(int i=0;i<n;i++){
+      for(int j=0;j<n;j++){
+        System.out.print(a[i][j]+" ");
+      }
+      System.out.println();
+    }
+    System.out.println();
+  }
+  public static boolean isSafe(char[][] a,int row,int col,int n){
+      // System.out.println(row+" "+col+" "+n);
+    for(int i=0;i<row;i++){
+      if(a[i][col]=='q')
+      return false;
+    }
+    // System.out.println("safe");
+    for(int i=row-1,j=col-1;i>=0&&j>=0;i--,j--){
+      if(a[i][j]=='q')
+      return false;
+     
+    }
+    // System.out.println("safe");
+    for(int i=row-1,j=col+1;i>=0&&j<n;i--,j++)
+    {
+      if(a[i][j]=='q')
+      return false;
+      
+    }
+    // Systout.println("safe");
+
+    return true;
+
+  }
+}
