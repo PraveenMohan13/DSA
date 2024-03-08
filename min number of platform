@@ -38,8 +38,33 @@ class Main {
 		System.out.println(fun(arr, dep, n));
 	}
 }
+===========================================================================================
+def fun(arr, dep, n):
+    arr.sort()
+    dep.sort()
+    ans = 1
+    fans = 1
+    i = 1
+    j = 0
+    
+    while i < n and j < n:
+        if arr[i] <= dep[j]:
+            ans += 1
+            i += 1
+        elif arr[i] > dep[j]:
+            ans -= 1
+            j += 1
+        if ans > fans:
+            fans = ans
+    
+    return fans
 
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    dep = list(map(int, input().split()))
 
+    print(fun(arr, dep, n))
 
-		
-		
+if __name__ == "__main__":
+    main()
