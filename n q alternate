@@ -38,3 +38,34 @@ public class Main {
         z.close();
     }
 }
+========================================================================
+def fun(b, c, s):
+    if c == s:
+        return True
+    else:
+        for i in range(s):
+            b[c] = i
+            if check(b, c):
+                d = fun(b, c + 1, s)
+                if d:
+                    return True
+        return False
+
+def check(b, c):
+    for i in range(c):
+        if b[i] == b[c] or abs(c - i) == abs(b[c] - b[i]):
+            return False
+    return True
+
+def main():
+    n = int(input())
+    a = [0] * n
+
+    if fun(a, 0, n):
+        for i in range(n):
+            print(a[i], end=" ")
+    else:
+        print("-1")
+
+if __name__ == "__main__":
+    main()
