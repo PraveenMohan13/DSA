@@ -81,3 +81,40 @@ public class Main {
 		sc.close();
 	}
 }
+===============================================================================================
+def main():
+    n = int(input())
+    s = [input()[0] for _ in range(n)]
+
+    police = []
+    thief = []
+
+    for i in range(n):
+        if s[i] == 'P':
+            police.append(i)
+        else:
+            thief.append(i)
+
+    k = int(input())
+
+    p = 0
+    t = 0
+    ans = 0
+
+    while p < len(police) and t < len(thief):
+        pIndex = police[p]
+        tIndex = thief[t]
+
+        if abs(pIndex - tIndex) <= k:
+            ans += 1
+            p += 1
+            t += 1
+        elif pIndex < tIndex:
+            p += 1
+        else:
+            t += 1
+
+    print("Maximum thieves caught:", ans)
+
+if __name__ == "__main__":
+    main()
