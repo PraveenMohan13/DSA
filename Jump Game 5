@@ -62,3 +62,17 @@ public class Solution {
             System.out.println("true");         
     }
 }
+==========================================================================
+def main():
+    n = int(input())
+    target = 0
+    a = list(map(int, input().split()))
+
+    for i in range(n):
+        if i > target:
+            print("false")
+            return
+        target = max(target, i + a[i])
+
+    print("true")
+main()
