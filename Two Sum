@@ -1,0 +1,66 @@
+Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+Input Format
+
+First line of each test case or query contains an integer 'N' representing the size of the first array/list.
+Second line contains 'N' single space separated integers representing the elements in the array/list.
+Third line contains an integer 'X'.
+Constraints
+
+Time complexity Constraint : O(n)
+Output Format
+
+Two integer values indicating the indices of the two numbers whose sum is equal to the target value.
+Sample Input 0
+
+4
+2 7 11 15
+9
+Sample Output 0
+
+0 1
+Sample Input 1
+
+3
+3 2 4
+6
+Sample Output 1
+
+1 2
+==============================================o(n^2)==================================================
+n=int(input())
+a = [int(x) for x in input().split()]
+t=int(input())
+for i in range(n-1):
+    for j in range(i+1,n):
+        if(a[i]+a[j] == t):
+            print(i,j)
+            break
+
+=======================================o(n)============================================================
+n=int(input())
+a = [int(x) for x in input().split()]
+t=int(input())
+d={}
+for i in range(n):
+    dif=t-a[i]
+    if a[i] not in d:
+        d[dif]=i
+    else:
+        print(d[a[i]],end=" ")
+        print(i)
+======================================LCode=================================================
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        d={}
+        for i in range(len(nums)):
+            dif=target-nums[i]
+            if nums[i] not in d:
+                d[dif]=i
+            else:
+                return [d[nums[i]],i];
+        
