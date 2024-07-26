@@ -48,6 +48,62 @@ class PGraph {
     g.Prim(G, V);
   }
 }
+===============================================================================
+import java.util.Arrays;
+class PGraph {
+
+  static void Prim(int G[][], int V) {
+
+    int INF = Integer.MAX_VALUE;
+
+    int no_edge; 
+    boolean[] selected = new boolean[V];
+    Arrays.fill(selected, false);
+    no_edge = 0;
+    selected[0] = true;
+    System.out.println("Edge : Weight");
+
+    while (no_edge < V - 1) {
+      
+
+      int min = INF;
+;      int x = 0; 
+      int y = 0; 
+
+      for (int i = 0; i < V; i++) {
+        if (selected[i] == true) {
+          for (int j = 0; j < V; j++) {
+            if (!selected[j] && G[i][j] != 0) {
+              if (min > G[i][j]) {
+                min = G[i][j];
+                x = i;
+                y = j;
+              }
+            }
+          }
+        }
+      }
+      System.out.println(x + " - " + y + " :  " + G[x][y]);
+      selected[y] = true;
+      no_edge++;
+    }
+  }
+
+   public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int V = s.nextInt();
+        int E = s.nextInt();
+        int [][]a = new int[V][V];
+        for(int i=0;i<E;i++){
+            int v1 = s.nextInt();
+            int v2 = s.nextInt();
+            int weight = s.nextInt();
+            a[v1][v2] = weight;
+            // a[v2][v1] = weight;
+        }
+    Prim(a, V);
+  }
+}
 ---------------------------------------------------------------------------------------------------------------------------------------
 import java.io.*;
 import java.util.*;
