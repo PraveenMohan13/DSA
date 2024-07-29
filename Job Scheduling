@@ -1,4 +1,63 @@
 import java.util.*;
+public class Solution {
+    
+    static void fun(ArrayList<Character> name,ArrayList<Integer> dl,ArrayList<Integer> amt,int max)
+    {
+        String s = "";
+        boolean b[] = new boolean[max+1];
+        for(int i=amt.size()-1;i>=0;i--)
+        { //System.out.println(amt.get(i)+" "+ dl.get(i));
+            for(int j=dl.get(i);j>0;j--)
+            {
+                if(!b[j])
+                {
+                    b[j]=true;
+                    s+=name.get(i);
+                    break;
+                }
+            }
+        }
+        for(int i=1;i<=max;i++)
+            System.out.print(b[i]);
+        System.out.print(s);
+        
+        
+    }
+
+ 
+   public static void main(String args[]) {
+       Scanner z= new Scanner(System.in);
+       ArrayList<Character> name = new ArrayList<>();
+       ArrayList<Integer> dl = new ArrayList<>();
+       ArrayList<Integer> amt = new ArrayList<>();
+       
+      while(z.hasNext())
+       {
+          name.add(z.next().charAt(0));
+          dl.add(z.nextInt());
+          amt.add(z.nextInt());
+       }
+       for(int i=0;i<dl.size();i++)
+       {
+           for(int j=0;j<dl.size();j++)
+           {
+               if(amt.get(i)<amt.get(j))
+               {
+                   Collections.swap(name, i, j);
+                   Collections.swap(dl, i, j);
+                   Collections.swap(amt, i, j);  
+                }
+           }
+       }
+       int max=Collections.max(dl);
+       fun(name,dl,amt,max);
+   }
+}
+===================================================
+
+
+
+import java.util.*;
 public class Job {
    char id;
    int deadline, profit;
