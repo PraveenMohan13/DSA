@@ -1,0 +1,66 @@
+Given an amount, find the minimum number of notes of different denominations that sum up to the given amount. Starting from the highest denomination note, try to accommodate as many notes as possible for a given amount.
+We may assume that we have infinite supply of notes of values
+{2000, 500, 200, 100, 50, 20, 10, 5, 1}
+
+Input Format
+
+800
+
+Output Format
+
+500 : 1
+200 : 1
+100 : 1
+
+Sample Input 0
+
+2350
+Sample Output 0
+
+2000 : 1
+200 : 1
+100 : 1
+50 : 1
+===================================================================================
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner z= new Scanner(System.in);
+        int a[]=new int[9];
+        a[0]=1;
+        a[1]=5;
+        a[2]=10;
+        a[3]=20;
+        a[4]=50;
+        a[5]=100;
+        a[6]=200;
+        a[7]=500;
+        a[8]=2000;
+        int pos = 8;
+        int c = 0;
+        int n = z.nextInt();
+        while(n!=0)
+        {
+            if(a[pos]<=n)
+            {
+                n=n-a[pos];
+                c++;
+            }
+            else
+            {
+                if(c!=0)
+                    System.out.println(a[pos]+" : "+c);
+                c=0;
+                pos--;
+            }
+        }
+        if(c!=0)
+            System.out.println(a[pos]+" : "+c);
+    }
+}
