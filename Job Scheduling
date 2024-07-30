@@ -1,6 +1,6 @@
 import java.util.*;
 public class Solution {
-    
+     
     static void fun(ArrayList<Character> name,ArrayList<Integer> dl,ArrayList<Integer> amt,int max)
     {
         String s = "";
