@@ -4,22 +4,20 @@ public class Solution {
     static void fun(ArrayList<Character> name,ArrayList<Integer> dl,ArrayList<Integer> amt,int max)
     {
         String s = "";
-        boolean b[] = new boolean[max+1];
+        char b[] = new char[max+1];
         for(int i=amt.size()-1;i>=0;i--)
-        { //System.out.println(amt.get(i)+" "+ dl.get(i));
+        { 
             for(int j=dl.get(i);j>0;j--)
             {
-                if(!b[j])
+                if(b[j]==0)
                 {
-                    b[j]=true;
-                    s+=name.get(i);
+                    b[j]=name.get(i);
                     break;
                 }
             }
         }
         for(int i=1;i<=max;i++)
-            System.out.print(b[i]);
-        System.out.print(s);
+            System.out.print(b[i]+" ");
         
         
     }
