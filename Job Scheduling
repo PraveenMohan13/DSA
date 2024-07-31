@@ -1,3 +1,62 @@
+===================================print max profit=========================================
+import java.util.*;
+public class Solution {
+     
+    static void fun(int dl[],int amt[],int max)
+    {
+        int ans = 0 ;
+        int b[] = new int[max+1];
+        for(int i=amt.length-1;i>=0;i--)
+        { 
+            for(int j=dl[i];j>0;j--)
+            {
+                if(b[j]==0)
+                {
+                    b[j]=amt[i];
+                    break;
+                }
+            }
+        }
+        for(int i=1;i<=max;i++)
+            ans+=b[i];
+        System.out.print(ans);
+        
+    }
+
+ 
+   public static void main(String args[]) {
+       Scanner z= new Scanner(System.in);
+       int n = z.nextInt();
+     int dl[]=new int[n];
+       int amt[]=new int[n];
+      for(int i=0;i<n;i++)
+       {
+          dl[i]=z.nextInt();
+          amt[i]=z.nextInt();
+       }
+       for(int i=0;i<n;i++)
+       {
+           for(int j=0;j<n;j++)
+           {
+               if(amt[i]<amt[j])
+               {
+                   int t = amt[i];
+                 amt[i] = amt[j];
+                 amt[j]=t;
+                 t = dl[i];
+                 dl[i]=dl[j];
+                 dl[j]=t;
+                }
+           }
+       }
+     int max=0;
+     for(int i=0;i<n;i++)
+       if(max<dl[i])
+         max=dl[i];
+       fun(dl,amt,max);
+   }
+}
+================================================ print the job allocate name =========================================================================
 import java.util.*;
 public class Solution {
      
@@ -51,7 +110,7 @@ public class Solution {
        fun(name,dl,amt,max);
    }
 }
-===================================================
+==================print the job allocate name with the allocate order=================================
 
 
 
