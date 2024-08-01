@@ -21,6 +21,43 @@ Example 3:
 
 Input: coins = [1], amount = 0
 Output: 0
+===============================================================================================
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner z = new Scanner(System.in);
+        ArrayList<Integer> l = new ArrayList<>();
+        while(z.hasNext())
+        {
+            l.add(z.nextInt());
+        }
+        int t = l.get(l.size()-1);
+        l.remove(l.size()-1);
+        int dp[] = new int[t+1];
+        for(int i=0;i<t+1;i++)
+            dp[i]=Integer.MAX_VALUE;
+        dp[0]=0;
+        for(int i=0;i<l.size();i++)
+        {
+            for(int j = l.get(i);j<t+1;j++)
+            {
+                if(dp[j-l.get(i)]!=Integer.MAX_VALUE)
+                {
+                    dp[j] = Math.min(dp[j],dp[j-l.get(i)]+1);
+                }
+            }
+        }
+      
+        if(dp[t]!=Integer.MAX_VALUE)
+            System.out.print(dp[t]);
+        else
+            System.out.print("-1");
+            
+    }
+}
 --------------------------------------------------------------------------------------------------------------------------------
 class Solution {
    public int coinChange(int[] coins, int amount) {
