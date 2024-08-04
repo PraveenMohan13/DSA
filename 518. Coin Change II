@@ -34,7 +34,39 @@ Constraints:
 1 <= coins[i] <= 5000
 All the values of coins are unique.
 0 <= amount <= 5000
+--------------------------------------------------------
+// "static void main" must be defined in a public class.
+public class Main {
+    
+public static int fun(int amount, int[] coins) {
+        int n = coins.length;
+        int[]dp = new int[amount + 1];
+       
+      dp[0]=1;
 
+       for (int i = 0; i < n; i++)
+       {
+        for (int j = coins[i]; j <= amount; j++)
+        {
+            dp[j] += dp[j - coins[i]];
+            System.out.println(i+" " +j +" "+dp[j]+" ");
+        }
+           System.out.println();
+       }
+
+    
+        return dp[amount];
+    }
+    public static void main(String[] args) {
+        Scanner z = new Scanner(System.in);
+        int n=z.nextInt();
+        int a[]=new int[n];
+        for(int i=0;i<n;i++)
+            a[i]=z.nextInt();
+        int t = z.nextInt();
+        System.out.println(fun(t,a));
+    }
+}
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 class Solution {
     
