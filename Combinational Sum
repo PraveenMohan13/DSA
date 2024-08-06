@@ -1,0 +1,83 @@
+Given an array of positive integers arr[] and an integer x, The task is to find all unique combinations in arr[] where the sum is equal to x.
+The same repeated number may be chosen from arr[] an unlimited number of times. Elements in a combination (a1, a2, …, ak) must be printed in non-descending order. (ie, a1 <= a2 <= … <= ak). If there is no combination possible print “Empty”.
+Input Format
+
+First line array size
+Second line array elements
+Third line target value
+Constraints
+
+Time:- 1 Sec
+
+Output Format
+
+Pairs in different lines
+Sample Input 0
+
+4
+2 3 6 7
+7
+Sample Output 0
+
+2 2 3
+7
+Sample Input 1
+
+3
+2 3 5
+8
+Sample Output 1
+
+2 2 2 2
+2 3 3
+3 5
+==========================================================================
+import java.util.*;
+
+public class Solution {
+    static ArrayList<Integer> ans = new ArrayList<>(); 
+    static void fun(ArrayList<Integer> a, int t,int n)
+    {
+        TreeSet<Integer> T = new TreeSet<>();
+        T.addAll(a);
+        a.clear();
+        a.addAll(T);
+        back(a,t,0,n);
+    }
+    static void print()
+    {
+        for(int i:ans)
+            System.out.print(i+" ");
+        System.out.println();
+    }
+    static void back( ArrayList<Integer> a,int t, int pos,int n)
+    {
+        if(t==0)
+        {
+            print();
+        }
+        
+        for( int i=pos;i<n;i++)
+        {
+            if(t-a.get(i)>=0)
+            {
+                ans.add(a.get(i));
+                back(a, t-a.get(i),i,n);
+                ans.remove(a.get(i));
+            }
+        }
+    }
+
+    public static void main(String[] args) 
+    {
+        Scanner z=new Scanner(System.in);
+        int n=z.nextInt();
+        ArrayList<Integer> a=new ArrayList<>();
+        for(int i=0;i<n;i++)
+        {
+           a.add(z.nextInt()) ;
+        }
+        int t=z.nextInt();
+        fun(a,t,n);
+    }
+}
