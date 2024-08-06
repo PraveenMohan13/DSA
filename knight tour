@@ -1,66 +1,68 @@
+Given a N*N board with the Knight placed on the first block of an empty board. Moving according to the rules of chess knight must visit each square exactly once. Print the order of each cell in which they are visited.
 
-import java.util.Scanner;
+Input Format
 
-public class knighttour {
-  static int xMove[] = { 2, 1, -1, -2, -2, -1, 1, 2 };
-  static int yMove[] = {1, 2, 2, 1, -1, -2, -2, -1 };
-  public static void main(String[] args) {
-    Scanner sc=new Scanner(System.in);
-    int n=sc.nextInt();
-    int a[][]=new int[n][n];
-  
-    boolean used[][]=new boolean[n][n];
-    solve(a,0,0,1,n,used);
+Take value as 8 only
+Constraints
+
+Time:- 1 Sec
+Output Format
+
+Knight tour in the form of matrix
+Sample Input 0
+
+8
+Sample Output 0
+
+0 59 38 33 30 17 8 63 
+37 34 31 60 9 62 29 16 
+58 1 36 39 32 27 18 7 
+35 48 41 26 61 10 15 28 
+42 57 2 49 40 23 6 19 
+47 50 45 54 25 20 11 14 
+56 43 52 3 22 13 24 5 
+51 46 55 44 53 4 21 12
+=================================================================
+import java.io.*;
+import java.util.*;
+
+public class Solution {
     
-    
-  }
-  public static void display(int[][] a,int n){
-    for(int i=0;i<n;i++){
-      for(int j=0;j<n;j++){
-        System.out.print(a[i][j]+" ");
-      }
-
-      System.out.println();
-
-    }
-    System.out.println();
-  }
-
-
-  public static  void solve(int[][] a,int row,int col,int count,int n,boolean[][] used){
-    if(count==n*n)
+    static int n=8;
+    static int x[]={2,1,-1,-2,-2,-1,1,2};
+    static int y[]={1,2,2,1,-1,-2,-2,-1};
+    public static boolean fun(int a[][],int r, int c,int h)
     {
-      for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-          System.out.print(a[i][j]+" ");
+        if(h==(n*n))
+        {
+            return true;
         }
-
-        System.out.println();
-      }
-      System.exit(0);
-      System.out.println();
+        for(int i=0;i<n;i++)
+        {
+            int x1=x[i]+r;
+            int y1=y[i]+c;
+            if(x1>=0 && y1>=0 && x1<n && y1<n && a[x1][y1]==0)
+            {
+                a[x1][y1]=h;
+                if(fun(a,x1,y1,h+1))
+                    return true;
+                a[x1][y1]=0;
+            }
+        }
+        return false;
     }
-    else{
-      for(int k=0;k<8;k++){
-        if(issafe(a,row+xMove[k],col+yMove[k],count,n,used)){
-          used[row+xMove[k]][col+yMove[k]]=true;
-          a[row+xMove[k]][col+yMove[k]]=count;
-          solve(a,row+xMove[k],col+yMove[k],count+1,n,used);
-          used[row+xMove[k]][col+yMove[k]]=false;
-          a[row+xMove[k]][col+yMove[k]]=0;
-        }
-      }  
-  }
-  }
-  public static boolean issafe(int[][] a,int x,int y,int count,int n,boolean[][] used){
-    if(x==0&&y==0) return false;
-
-    if(x<0||x>=n||y<0||y>=n)
-    return false;
-    if(used[x][y])
-    return false;
-
-    return true;
-  }  
-
+    public static void main(String[] args) {
+       Scanner sc=new Scanner(System.in);
+        int a[][]=new int[n][n];
+       if(fun(a,0,0,1))
+       {
+           for(int i=0;i<n;i++)
+           {
+            for(int j=0;j<n;j++)
+                System.out.print(a[i][j]+" ");
+            System.out.println();
+           }
+       }
+        
+    }
 }
