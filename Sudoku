@@ -1,0 +1,127 @@
+Given a partially filled 9×9 2D array ‘grid[9][9]’, the goal is to assign digits (from 1 to 9) to the empty cells so that every row, column, and subgrid of size 3×3 contains exactly one instance of the digits from 1 to 9.
+Input Format
+
+First line value of row
+Second Line value of col
+From third line matrix input taking start
+Constraints
+
+Time:- 1 Sec
+Output Format
+
+Fully Filled matrix
+Sample Input 0
+
+9
+9
+3 0 6 5 0 8 4 0 0
+5 2 0 0 0 0 0 0 0
+0 8 7 0 0 0 0 3 1
+0 0 3 0 1 0 0 8 0
+9 0 0 8 6 3 0 0 5
+0 5 0 0 9 0 6 0 0 
+1 3 0 0 0 0 2 5 0
+0 0 0 0 0 0 0 7 4
+0 0 5 2 0 6 3 0 0
+Sample Output 0
+
+3 1 6 5 7 8 4 9 2
+5 2 9 1 3 4 7 6 8
+4 8 7 6 2 9 5 3 1
+2 6 3 4 1 5 9 8 7
+9 7 4 8 6 3 1 2 5
+8 5 1 7 9 2 6 4 3
+1 3 8 9 4 7 2 5 6
+6 9 2 3 5 1 8 7 4
+7 4 5 2 8 6 3 1 9
+Sample Input 1
+
+9
+9
+3 0 6 5 0 8 4 0 0
+5 2 0 0 0 0 0 0 0
+0 8 7 0 0 0 0 3 1
+0 0 3 0 2 0 0 8 0
+9 0 0 8 6 3 0 0 5
+0 5 0 0 9 0 6 0 6 
+1 3 0 0 0 0 2 5 0
+0 0 0 0 0 0 0 7 4
+0 0 5 2 0 6 3 0 9
+Sample Output 1
+
+No Solution exists
+===========================================================================
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+    public static void main(String[] args) 
+    {
+        Scanner z=new Scanner(System.in);
+        int r=z.nextInt();
+         int c=z.nextInt();
+        int a[][]=new int[r][c];
+        for(int i=0;i<r;i++)
+            for( int j=0;j<c;j++)
+                a[i][j]=z.nextInt();
+        
+        if(check( a,0,0,r))
+            print(a,r,c);
+        else
+            System.out.print("No Solution exists");  
+    }
+    
+    public static  boolean check( int a[][], int r, int c, int n)
+    {
+        if(r==n-1 && c==n) 
+            return true;
+        if(c==n)//if we complete the column go to next row and start with 0'th col
+        {
+            r++;
+            c=0;
+        }
+        //if the box have value we don't want to place the value. so move next box. that's why we use return.
+        if(a[r][c]!=0) 
+           return check(a,r,c+1,n);
+        //if box is empty check one by one vale and place it.
+        for( int num=1;num<=n;num++)
+        {
+            if(safe(a,r,c,n,num))
+            {
+                a[r][c]=num;
+                if(check(a,r,c+1,n))
+                    return true;
+            }
+        }
+        a[r][c]=0; //backtrack
+        return false;
+        
+    }
+    static boolean safe(int a[][], int r, int c, int n, int num)
+    {
+        for(int i=0;i<n;i++) 
+            if(a[i][c]==num || a[r][i]==num)
+                return false;
+        
+            int t1=r-r%3,t2=c-c%3;
+        
+            for(int i=0;i<3;i++)
+            {
+                for(int j=0;j<3;j++)
+                    if(a[i+t1][j+t2]==num)
+                        return false;
+            }
+        return true;
+        
+    }
+    static void print(int a[][],int r,int c)
+    {
+        for(int i=0;i<r;i++)
+        {
+            for(int j=0;j<c;j++)
+                System.out.print(a[i][j]+" ");
+            System.out.println();
+        }
+        
+    }
+}
