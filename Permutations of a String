@@ -1,0 +1,64 @@
+Write a program to create all permutations of an input string and remove duplicates, if present. This means you have to shuffle all letters from the input in all possible orders.
+
+Input Format
+
+String S
+
+Constraints
+
+1 <= size of string <= 8.
+
+Output Format
+
+All permutations in diffferent line
+Sample Input 0
+
+ab
+Sample Output 0
+
+ab
+ba
+Sample Input 1
+
+ABC
+Sample Output 1
+
+ABC
+ACB
+BAC
+BCA
+CBA
+CAB
+=================================================
+// "static void main" must be defined in a public class.
+public class Main {
+    static ArrayList<String> l = new ArrayList<>();
+    static void swap(char a[],int f,int s)
+    {
+        char t=a[f];
+        a[f]=a[s];
+        a[s]=t;
+    }
+    static void fun(char a[],int t,int n)
+    {
+        if(t==n-1)
+        {
+            l.add(new String(a));
+            return;
+        }
+        for(int i=t;i<n;i++)
+        {
+            swap(a,i,t);
+            fun(a,t+1,n);
+            swap(a,i,t);
+        }
+    }
+    public static void main(String[] args) {
+        Scanner z= new Scanner(System.in);
+        String s = z.next();
+        char a[] = s.toCharArray();
+        fun(a,0,a.length);
+        for (String i :l)
+        System.out.println(i);
+    }
+}
