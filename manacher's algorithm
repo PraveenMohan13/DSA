@@ -1,0 +1,37 @@
+public class Main {
+    public static void main(String[] args) {
+        Scanner z = new Scanner(System.in);
+        String s = z.next();
+        int n =s.length()*2 + 1;
+        char a[]=new char[n];
+        int ans[] = new int[n];
+        //int t=0;
+        a[0]='$';
+        for(int i=1;i<n-1;i+=2)
+        {
+            a[i]=s.charAt(i/2);
+            a[i+1]='$';
+        }
+        for(int i=1;i<n-1;i++)
+        {
+            int l=i-1,r=i+1;
+                while(l>=0&&r<n)
+                {//System.out.println(a[l]+ "" +a[r]+l+r);
+                    if(a[l]==a[r])
+                    {
+                        ans[i] +=1;  
+                        l--;
+                        r++;
+                    }
+                    else
+                        break;
+                   
+                }
+            //t++
+        }
+       
+        for(int i=0;i<n;i++)
+            System.out.println(a[i]+" "+ans[i]);
+     
+    }
+}
