@@ -1,0 +1,29 @@
+// "static void main" must be defined in a public class.
+public class Main {
+    public static void main(String[] args) {
+      int num=99;
+        Map<String,Integer> x =new LinkedHashMap<>();
+      x.put("M",1000);
+      x.put("CM",900);
+      x.put("D",500);
+      x.put("C",100);
+      x.put("XC",90);
+      x.put("L",50);
+      x.put("XL",40);
+      x.put("X",10);
+      x.put("IX",9);
+      x.put("V",5);
+      x.put("IV",4);
+      x.put("I",1);
+    
+        StringBuilder ans = new StringBuilder();
+        
+        for (Map.Entry< String,Integer>v : x.entrySet()) {
+            while (num >= v.getValue()) {
+                num -= v.getValue();    
+                ans.append(v.getKey()); 
+            }
+        }
+     System.out.print(ans);
+    }
+}
