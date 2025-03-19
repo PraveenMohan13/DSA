@@ -26,8 +26,6 @@ Constraints:
 s consists of lowercase English letters and parentheses '(' and ')'.
 There will be at most 20 parentheses in s.
 =========================================================================================
-import java.util.*;
-
 class Solution {
     private String s;
     private int n;
@@ -38,8 +36,15 @@ class Solution {
         this.n = s.length();
         int l = 0, r = 0;
         for (char c : s.toCharArray()) {
-            if (c == '(') l++;
-            else if (c == ')') l = (l > 0) ? l - 1 : r++;
+            if (c == '(') {
+                ++l;
+            } else if (c == ')') {
+                if (l > 0) {
+                    --l;
+                } else {
+                    ++r;
+                }
+            }
         }
         dfs(0, l, r, 0, 0, "");
         return new ArrayList<>(ans);
@@ -47,15 +52,49 @@ class Solution {
 
     private void dfs(int i, int l, int r, int lcnt, int rcnt, String t) {
         if (i == n) {
-            if (l == 0 && r == 0) ans.add(t);
+            if (l == 0 && r == 0) {
+                ans.add(t);
+            }
             return;
         }
-        if (n - i < l + r || lcnt < rcnt) return;
-
+        if (n - i < l + r || lcnt < rcnt) {
+            return;
+        }
         char c = s.charAt(i);
-        if (c == '(' && l > 0) dfs(i + 1, l - 1, r, lcnt, rcnt, t);
-        if (c == ')' && r > 0) dfs(i + 1, l, r - 1, lcnt, rcnt, t);
-
-        dfs(i + 1, l, r, lcnt + (c == '(' ? 1 : 0), rcnt + (c == ')' ? 1 : 0), t + c);
+        if (c == '(' && l > 0) {
+            dfs(i + 1, l - 1, r, lcnt, rcnt, t);
+        }
+        if (c == ')' && r > 0) {
+            dfs(i + 1, l, r - 1, lcnt, rcnt, t);
+        }
+        int x = c == '(' ? 1 : 0;
+        int y = c == ')' ? 1 : 0;
+        dfs(i + 1, l, r, lcnt + x, rcnt + y, t + c);
     }
+} 
+=====================================================================
+class Solution {
+   
+    public List<String> removeInvalidParentheses(String s) {
+    List<String> ans = new ArrayList<>();
+    remove(s, ans, 0, 0, new char[]{'(', ')'});
+    return ans;
+}
+
+public void remove(String s, List<String> ans, int last_i, int last_j,  char[] par) {
+    for (int stack = 0, i = last_i; i < s.length(); ++i) {
+        if (s.charAt(i) == par[0]) stack++;
+        if (s.charAt(i) == par[1]) stack--;
+        if (stack >= 0) continue;
+        for (int j = last_j; j <= i; ++j)
+            if (s.charAt(j) == par[1] && (j == last_j || s.charAt(j - 1) != par[1]))
+                remove(s.substring(0, j) + s.substring(j + 1, s.length()), ans, i, j, par);
+        return;
+    }
+    String reversed = new StringBuilder(s).reverse().toString();
+    if (par[0] == '(') // finished left to right
+        remove(reversed, ans, 0, 0, new char[]{')', '('});
+    else // finished right to left
+        ans.add(reversed);
+}
 }
