@@ -1,0 +1,61 @@
+301. Remove Invalid Parentheses
+
+Given a string s that contains parentheses and letters, remove the minimum number of invalid parentheses to make the input string valid.
+
+Return a list of unique strings that are valid with the minimum number of removals. You may return the answer in any order.
+
+ 
+
+Example 1:
+
+Input: s = "()())()"
+Output: ["(())()","()()()"]
+Example 2:
+
+Input: s = "(a)())()"
+Output: ["(a())()","(a)()()"]
+Example 3:
+
+Input: s = ")("
+Output: [""]
+ 
+
+Constraints:
+
+1 <= s.length <= 25
+s consists of lowercase English letters and parentheses '(' and ')'.
+There will be at most 20 parentheses in s.
+=========================================================================================
+import java.util.*;
+
+class Solution {
+    private String s;
+    private int n;
+    private Set<String> ans = new HashSet<>();
+
+    public List<String> removeInvalidParentheses(String s) {
+        this.s = s;
+        this.n = s.length();
+        int l = 0, r = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '(') l++;
+            else if (c == ')') l = (l > 0) ? l - 1 : r++;
+        }
+        dfs(0, l, r, 0, 0, "");
+        return new ArrayList<>(ans);
+    }
+
+    private void dfs(int i, int l, int r, int lcnt, int rcnt, String t) {
+        if (i == n) {
+            if (l == 0 && r == 0) ans.add(t);
+            return;
+        }
+        if (n - i < l + r || lcnt < rcnt) return;
+
+        char c = s.charAt(i);
+        if (c == '(' && l > 0) dfs(i + 1, l - 1, r, lcnt, rcnt, t);
+        if (c == ')' && r > 0) dfs(i + 1, l, r - 1, lcnt, rcnt, t);
+
+        dfs(i + 1, l, r, lcnt + (c == '(' ? 1 : 0), rcnt + (c == ')' ? 1 : 0), t + c);
+    }
+}
