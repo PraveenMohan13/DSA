@@ -92,7 +92,7 @@ class Solution {
         
         for(int i = 0; i < board.length; i++){
             for(int j = 0; j < board[0].length; j++){
-                if(board[i][j] == 'C')
+                if(board[i][j] == '-')
                     board[i][j] = 'O';
             }
         }
@@ -101,9 +101,9 @@ class Solution {
     public boolean find(char[][] board, int i, int j){
         if(i < 0 || j < 0 || i == board.length || j == board[0].length)
             return false;
-        if(board[i][j] == 'X' || board[i][j] == 'C')
+        if(board[i][j] == 'X' || board[i][j] == '-')
             return true;
-        board[i][j] = 'C';
+        board[i][j] = '-';
         boolean a = find(board, i - 1, j);
         boolean b = find(board, i + 1, j);
         boolean c = find(board, i, j - 1);
@@ -154,5 +154,48 @@ class Solution {
         dfs(board, i - 1, j, visited);
         dfs(board, i, j + 1, visited);
         dfs(board, i, j - 1, visited);
+    }
+}
+========================================BAcktracking====================================================
+class Solution {
+    public void solve(char[][] a) {
+        for(int i = 0; i < a.length; i++){
+            for(int j = 0; j <a[0].length; j++){
+                if(a[i][j] == 'O'){
+                    if(check(a, i, j)){
+                        change(a, i, j);
+                    }
+                }
+            }
+        }   
+        for(int i = 0; i < a.length; i++){
+            for(int j = 0; j < a[0].length; j++){
+                if(a[i][j] == '-')
+                    a[i][j] = 'O';
+            }
+        }
+    }
+    
+    public boolean check(char[][] a, int i, int j){
+        if(i < 0 || j < 0 || i == a.length || j == a[0].length)
+            return false;
+        if(a[i][j] == 'X' || a[i][j] == '-')
+            return true;
+        a[i][j] = '-';
+        
+        if((check(a, i - 1, j) && check(a, i + 1, j) && check(a, i, j - 1) && check(a, i, j + 1)))
+            return true;
+        return false;
+    }
+    
+    public void change(char[][] a, int i, int j){
+        if(a[i][j] == 'X')
+            return;
+        if(a[i][j] != 'X')
+            a[i][j] = 'X';
+        change(a, i + 1, j);
+        change(a, i - 1, j);
+        change(a, i, j + 1);
+        change(a, i, j - 1);   
     }
 }
