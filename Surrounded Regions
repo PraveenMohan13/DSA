@@ -77,3 +77,82 @@ class Solution {
         dfs(i+1,j);
     }
 }
+===============================BAcktrack======================================
+class Solution {
+    public void solve(char[][] board) {
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board[0].length; j++){
+                if(board[i][j] == 'O'){
+                    if(find(board, i, j)){
+                        change(board, i, j);
+                    }
+                }
+            }
+        }
+        
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board[0].length; j++){
+                if(board[i][j] == 'C')
+                    board[i][j] = 'O';
+            }
+        }
+    }
+    
+    public boolean find(char[][] board, int i, int j){
+        if(i < 0 || j < 0 || i == board.length || j == board[0].length)
+            return false;
+        if(board[i][j] == 'X' || board[i][j] == 'C')
+            return true;
+        board[i][j] = 'C';
+        boolean a = find(board, i - 1, j);
+        boolean b = find(board, i + 1, j);
+        boolean c = find(board, i, j - 1);
+        boolean d = find(board, i, j + 1);
+        
+        if((a && b) && (c && d))
+            return true;
+        return false;
+    }
+    
+    public void change(char[][] board, int i, int j){
+        if(board[i][j] == 'X')
+            return;
+        if(board[i][j] != 'X')
+            board[i][j] = 'X';
+        change(board, i + 1, j);
+        change(board, i - 1, j);
+        change(board, i, j + 1);
+        change(board, i, j - 1);   
+    }
+}
+=================================================================
+class Solution {
+    public void solve(char[][] board) {
+        int row = board.length, col = board[0].length;
+        boolean[][] visited = new boolean[row][col];
+        for (int i = 0; i < col; i ++) {
+            if (board[0][i] == 'O') dfs(board, 0, i, visited);
+            if (board[row - 1][i] == 'O') dfs(board, row - 1, i, visited);
+        }
+        for (int j = 0; j < row; j ++) {
+            if (board[j][0] == 'O') dfs(board, j, 0, visited);
+            if (board[j][col - 1] == 'O') dfs(board, j, col - 1, visited);
+        }
+        for (int i = 0; i < row; i ++) {
+            for (int j = 0; j < col; j ++) {
+                if (board[i][j] == 'O' && !visited[i][j]) {
+                    board[i][j] = 'X';
+                }
+            }
+        }
+    }
+
+    private void dfs(char[][] board, int i, int j, boolean[][] visited) {
+        if (i < 0 || i >= board.length || j < 0 || j >= board[0].length || visited[i][j] || board[i][j] == 'X') return;
+        visited[i][j] = true;
+        dfs(board, i + 1, j, visited);
+        dfs(board, i - 1, j, visited);
+        dfs(board, i, j + 1, visited);
+        dfs(board, i, j - 1, visited);
+    }
+}
