@@ -87,7 +87,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    // Method to change the list by moving last element to front k times
     public static List<Integer> fun(List<Integer> li, int k) {
         for (int i = 0; i < k; i++) {
             int a = li.remove(li.size() - 1);
@@ -99,18 +98,16 @@ public class Main {
     public static void main(String[] args) {
         Scanner z = new Scanner(System.in);
 
-        int t = z.nextInt();  // Number of test cases
+        int t = z.nextInt();  
         while (t > 0) {
-            int n = z.nextInt();  // Number of elements in the list
+            int n = z.nextInt();  
             List<Integer> l = new ArrayList<>();
 
-            // Populating the list r and modifying it with change method
             for (int i = n; i > 0; i--) {
                 l.add(0, i);
                 l = fun(l, i);
             }
 
-            // Printing the elements of the list r
             for (int ele : l) {
                 System.out.print(ele + " ");
             }
