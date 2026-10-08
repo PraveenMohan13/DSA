@@ -130,3 +130,72 @@ public class Main{
         }
     }
 }
+============================================hackerrank wrong code but only work this===================================================
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+    public static boolean found=false;
+    public static void dfs(int row,int col,int[][] mat,boolean[][] visit,int[][] path){
+        if(row<0 ||col<0 ||row>=mat.length ||col>=mat[0].length || visit[row][col] || mat[row][col]==0){
+            return;
+        }
+        visit[row][col]=true;
+        path[row][col]=1;
+        if(row==mat.length-1 && col ==mat[0].length-1 && !found){
+            found=true;
+             for(int i=0;i<mat.length;i++){
+                for(int j=0;j<mat[0].length;j++){
+                    System.out.print(path[i][j]+" ");
+                }
+                System.out.println();
+            }
+            
+        }
+        for(int i=1;i<=mat[row][col];i++){
+
+    dfs(row, col+i, mat, visit,path);
+    if(found) return;
+        }
+          for(int i=1;i<=mat[row][col];i++){
+
+    dfs(row+i, col, mat, visit,path);
+    if(found) return;
+         }
+ for(int i=1;i<=mat[row][col];i++){
+
+    dfs(row, col-i, mat, visit,path);
+    if(found) return;
+ } for(int i=1;i<=mat[row][col];i++){
+    dfs(row-i, col, mat, visit,path);
+    if(found) return;
+  }
+
+ visit[row][col] = false;
+    path[row][col] = 0;
+}
+    
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int t=sc.nextInt();
+        while(t-->0){
+            int n=sc.nextInt();
+            int[][] arr=new int[n][n];
+            found=false;
+            for(int i=0;i<n;i++){
+                for(int j=0;j<n;j++){
+                    arr[i][j]=sc.nextInt();
+                }
+            }
+            boolean[][] visit=new boolean[n][n];
+            int[][] path=new int[n][n];
+            dfs(0,0,arr,visit,path);
+            if(!found){
+                System.out.println(-1);
+            }
+        
+        }
+        
+    }
+}
+
